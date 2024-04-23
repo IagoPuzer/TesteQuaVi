@@ -1,47 +1,45 @@
-"use client";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface Props {
   onSubmit: (data: NoteData) => void;
   onClose: () => void;
+  initialData: NoteData;
 }
 
 export interface NoteData {
+  id: number;
   title: string;
   description: string;
 }
 
-export default function CreateNoteForm({
+export default function UpdateNoteForm({
   onSubmit,
   onClose,
+  initialData,
 }: Props): JSX.Element {
-  const [newNoteData, setNewNoteData] = useState<NoteData>({
-    title: "",
-    description: "",
-  });
+  const [noteData, setNoteData] = useState<NoteData>(initialData);
   const [error, setError] = useState<string>("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setNewNoteData({ ...newNoteData, [name]: value });
+    setNoteData({ ...noteData, [name]: value });
   };
 
-  const createNewNote = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdateNote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!newNoteData.title.trim() || !newNoteData.description.trim()) {
+    if (!noteData.title.trim() || !noteData.description.trim()) {
       setError("Os campos de título e/ou descrição não podem estar vazios.");
       return;
     }
 
     try {
-      onSubmit(newNoteData);
-      setNewNoteData({ title: "", description: "" });
+      onSubmit(noteData);
       onClose();
-      toast.success("Nota criada com sucesso");
+      toast.success("Nota editada com sucesso");
     } catch (error) {
       console.error("Error creating note:", error);
     }
@@ -50,21 +48,21 @@ export default function CreateNoteForm({
   return (
     <form
       className="bg-gray-100 p-4 rounded mb-8 w-96"
-      onSubmit={createNewNote}
+      onSubmit={handleUpdateNote}
     >
       <input
         type="text"
         name="title"
         placeholder="Title"
         className="block w-full border border-gray-300 rounded mb-2 p-2 text-black bg-white focus:outline-none"
-        value={newNoteData.title}
+        value={noteData.title}
         onChange={handleChange}
       />
       <textarea
         name="description"
         placeholder="Description"
         className="text-black block w-full border border-gray-300 rounded mb-2 p-2 bg-white focus:outline-none"
-        value={newNoteData.description}
+        value={noteData.description}
         onChange={handleChange}
       />
       {error && <p className="text-red-500 p-4">{error}</p>}
@@ -73,7 +71,7 @@ export default function CreateNoteForm({
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
         >
-          Criar
+          Atualizar
         </button>
         <button
           onClick={onClose}

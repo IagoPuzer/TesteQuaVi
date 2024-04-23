@@ -1,12 +1,18 @@
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  formComponent: React.ReactNode;
+interface Note {
+  id: number;
+  title: string;
+  description: string;
 }
 
-export default function CreateNoteModal({
+interface Props {
+  isOpen: boolean;
+  formComponent: React.ReactNode;
+  note?: Note;
+}
+
+export default function NoteModal({
   isOpen,
-  onClose,
+  note,
   formComponent,
 }: Props): JSX.Element {
   return (
@@ -15,15 +21,9 @@ export default function CreateNoteModal({
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="fixed inset-0 bg-gray-900 opacity-50"></div>
           <div className="bg-white p-8 rounded-lg shadow-lg z-10">
-            <div className="flex justify-end">
-              <button
-                className="text-gray-700 hover:text-gray-900"
-                onClick={onClose}
-              >
-                Fechar
-              </button>
-            </div>
-            <h2 className="text-xl font-bold mb-4">Criar Nova Nota</h2>
+            <h2 className="text-xl font-bold mb-4">
+              {note ? "Editar nota" : "Criar nota"}
+            </h2>
             {formComponent}
           </div>
         </div>

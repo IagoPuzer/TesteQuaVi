@@ -1,9 +1,8 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import NoteCard from "./components/card/NoteCard";
 import CreateNoteButton from "./components/buttons/CreateNoteButton";
-import CreateNoteModal from "./components/modals/CreateNoteModal";
+import NoteModal from "./components/modals/NoteModal";
 import CreateNoteForm, { NoteData } from "./components/forms/CreateNoteForm";
 
 interface Note {
@@ -44,10 +43,10 @@ export default function Home() {
         setNotes([...notes, newNote]);
         setIsModalOpen(false);
       } else {
-        console.error("Falha ao criar nova nota");
+        console.error("Failed to create new note");
       }
     } catch (error) {
-      console.error("erro ao criar nota:", error);
+      console.error("Error creating note:", error);
     }
   };
 
@@ -58,7 +57,32 @@ export default function Home() {
       });
       setNotes(notes.filter((note) => note.id !== noteId));
     } catch (error) {
-      console.error("Error deleting article:", error);
+      console.error("Error deleting note:", error);
+    }
+  };
+
+  const handleEditNote = async (updatedNoteData: Note) => {
+    try {
+      const response = await fetch(`./api/notes/${updatedNoteData.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedNoteData),
+      });
+      if (response.ok) {
+        const updatedNoteFromServer: Note = await response.json();
+        setNotes(
+          notes.map((note) =>
+            note.id === updatedNoteFromServer.id ? updatedNoteFromServer : note
+          )
+        );
+        setIsModalOpen(false);
+      } else {
+        console.error("Failed to update note");
+      }
+    } catch (error) {
+      console.error("Error updating note:", error);
     }
   };
 
@@ -78,20 +102,32 @@ export default function Home() {
     <div>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-100">Notas</h1>
+          <h1 className="text-3xl font-bold text-slate-100">Notes APP</h1>
           <div className="flex gap-6">
             <CreateNoteButton onCreate={handleCreateNote} />
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {notes.map((note) => (
-            <NoteCard key={note.id} note={note} onDelete={handleDeleteNote} />
-          ))}
+        <div className="">
+          {notes.length === 0 ? (
+            <p className="text-gray-500 text-3xl text-center flex justify-center">
+              Sem notas cadastradas
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {notes.map((note) => (
+                <NoteCard
+                  key={note.id}
+                  note={note}
+                  onDelete={handleDeleteNote}
+                  onUpdate={handleEditNote}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      <CreateNoteModal
+      <NoteModal
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
         formComponent={
           <CreateNoteForm onSubmit={createNewNote} onClose={handleCloseModal} />
         }
