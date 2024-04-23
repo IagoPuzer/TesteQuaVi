@@ -60,7 +60,7 @@ export default function CreateNoteForm({
       <textarea
         name="description"
         placeholder="Description"
-        className="text-black block w-full border border-gray-300 rounded mb-2 p-2 bg-white focus:outline-none"
+        className="text-black block w-full h-40 border border-gray-300 rounded mb-2 p-2 bg-white focus:outline-none"
         value={newNoteData.description}
         onChange={handleChange}
       />
