@@ -48,10 +48,7 @@ export default function CreateNoteForm({
   };
 
   return (
-    <form
-      className="bg-gray-100 p-4 rounded mb-8 w-96"
-      onSubmit={createNewNote}
-    >
+    <form className="bg-gray-100 p-4 rounded mb-8" onSubmit={createNewNote}>
       <input
         type="text"
         name="title"

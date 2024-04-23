@@ -46,10 +46,7 @@ export default function UpdateNoteForm({
   };
 
   return (
-    <form
-      className="bg-gray-100 p-4 rounded mb-8 w-96"
-      onSubmit={handleUpdateNote}
-    >
+    <form className="bg-gray-100 p-4 rounded mb-8 " onSubmit={handleUpdateNote}>
       <input
         type="text"
         name="title"
@@ -61,7 +58,7 @@ export default function UpdateNoteForm({
       <textarea
         name="description"
         placeholder="Description"
-        className="text-black block w-full border border-gray-300 rounded mb-2 p-2 bg-white focus:outline-none"
+        className="text-black block w-full border border-gray-300 rounded mb-2 p-2 bg-white focus:outline-none h-40"
         value={noteData.description}
         onChange={handleChange}
       />
