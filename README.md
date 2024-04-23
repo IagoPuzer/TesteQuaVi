@@ -6,7 +6,7 @@
 <p>Projeto desenvolvido para a realização do teste prático para vaga de Desenvolvedor full-stack da empresa Quarto a Vista.</p>
 
 <p align="center">
- <img src="apresentacao.gif">
+ <img src="/public/apresentacao.gif">
 </p>
 
 ## :hammer: Funcionalidades do projeto
