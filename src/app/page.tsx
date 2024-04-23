@@ -86,7 +86,7 @@ export default function Home() {
     }
   };
 
-  const handleCreateNote = () => {
+  const handleOpenModalCreateNote = () => {
     setIsModalOpen(true);
   };
 
@@ -104,7 +104,7 @@ export default function Home() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-slate-100">Notes APP</h1>
           <div className="flex gap-6">
-            <CreateNoteButton onCreate={handleCreateNote} />
+            <CreateNoteButton onCreate={handleOpenModalCreateNote} />
           </div>
         </div>
         <div className="">
