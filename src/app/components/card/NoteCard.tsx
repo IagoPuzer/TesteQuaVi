@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NoteModal from "../modals/NoteModal";
 import UpdateNoteForm, { NoteData } from "../forms/UpdateNoteForm";
-import ViewNote from "../modals/ViewNote"; // Importe o componente ViewNote aqui
+import ViewNote from "../modals/ViewNote";
 import { toast } from "sonner";
 
 interface Note {
@@ -18,7 +18,7 @@ interface Props {
 
 export default function NoteCard({ note, onDelete, onUpdate }: Props) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false); // Novo estado para controlar o modal de visualização
+  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
 
   const handleDeleteClick = () => {
     onDelete(note.id);
